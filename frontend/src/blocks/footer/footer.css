@@ -1,0 +1,21 @@
+@import url(./__capture/footer__capture.css);
+
+.footer {
+  width: 100%;
+  margin: auto auto 0 auto;
+  padding-bottom: 60px;
+  flex-shrink: 0;
+  justify-content: flex-start;
+}
+
+@media (max-width: 520px) {
+  .footer {
+    padding-bottom: 25px;
+  }
+}
+
+@media (max-width: 400px) {
+  .footer {
+    padding-bottom: 15px;
+  }
+}

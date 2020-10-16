@@ -1,0 +1,9 @@
+.auth__error-field {
+  font-size: 12px;
+  line-height: 14px;
+  color: #ff0000;
+  margin: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}

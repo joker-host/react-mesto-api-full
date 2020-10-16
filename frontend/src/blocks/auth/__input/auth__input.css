@@ -1,0 +1,42 @@
+.auth__input {
+  margin: 0;
+  padding: 0;
+  min-height: 31px;
+  margin-bottom: 30px;
+  background-color: #000000;
+  border: none;
+  border-bottom: 2px solid #cccccc;
+  padding: 0 3px 0px 3px;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 14px;
+  font-family: 'Inter', Arial, sans-serif;
+  line-height: 17px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.auth__input:focus {
+  outline: none;
+  border: 2px solid tomato;
+}
+
+.auth__input::-webkit-input-placeholder {
+  font-family: 'Inter', Arial, sans-serif;
+  color: #cccccc;
+}
+
+.auth__input:-ms-input-placeholder {
+  font-family: 'Inter', Arial, sans-serif;
+  color: #cccccc;
+}
+
+.auth__input:-moz-placeholder {
+  font-family: 'Inter', Arial, sans-serif;
+  color: #cccccc;
+}
+
+.auth__input::-moz-placeholder {
+  font-family: 'Inter', Arial, sans-serif;
+  color: #cccccc;
+}

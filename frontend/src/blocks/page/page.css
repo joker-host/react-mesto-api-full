@@ -1,0 +1,14 @@
+.page {
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: calc(100% - 31.25%);
+  margin: auto;
+}
+
+@media (max-width: 420px) {
+  .page {
+    max-width: 100%;
+  }
+}

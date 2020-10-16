@@ -1,0 +1,15 @@
+.error {
+  font-size: 12px;
+  line-height: 14px;
+  display: block;
+  color: #ff0000;
+  margin: 0;
+  margin-top: 6px;
+  position: absolute;
+}
+
+@media (max-width: 640px) {
+  .error {
+    max-width: 278px;
+  }
+}

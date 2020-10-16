@@ -1,0 +1,12 @@
+.header__logo {
+  cursor: pointer;
+}
+
+@media (max-width: 420px) {
+  .header__logo {
+    margin-left: 27px;
+    width: 104px;
+    height: 24px;
+    margin-bottom: 0;
+  }
+}

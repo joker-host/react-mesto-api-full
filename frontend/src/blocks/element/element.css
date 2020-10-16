@@ -1,0 +1,16 @@
+@import url(./__capture/element__capture.css);
+@import url(./__photo/element__photo.css);
+@import url(./__like/element__like.css);
+@import url(./__capture-container/element__capture-container.css);
+@import url(./__delete/element__delete.css);
+@import url(./__like-counter/element__like-counter.css);
+@import url(./__delete/_hidden/element__delete_hidden.css);
+@import url(./__delete/_visible/element__delete_visible.css);
+
+.element {
+  display: flex;
+  flex-direction: column;
+  width: 282px;
+  height: 362px;
+  position: relative;
+}
