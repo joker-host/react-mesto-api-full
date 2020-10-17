@@ -5,6 +5,6 @@ const headers = {
 
 const baseUrl = 'https://mesto.nomoreparties.co/v1/cohort-13';
 
-const newBaseUrl = 'https://auth.nomoreparties.co';
+const newBaseUrl = 'http://localhost:3000/api';
 
 export { headers, baseUrl, newBaseUrl };

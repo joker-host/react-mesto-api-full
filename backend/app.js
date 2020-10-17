@@ -1,6 +1,10 @@
 const express = require('express');
+const path = require("path")
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const { apiRouter } = require('./routes/apiRouter');
+
+const auth = require('./middlewares/auth');
 
 const app = express();
 mongoose.connect('mongodb://localhost:27017/mestodb', {
@@ -27,13 +31,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(
-  usersRouter,
-);
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(
-  cardsRouter,
-);
+app.use('/api', apiRouter);
 
 app.use('*', (req, res) => {
   res
