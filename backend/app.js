@@ -3,8 +3,7 @@ const path = require("path")
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { apiRouter } = require('./routes/apiRouter');
-
-const auth = require('./middlewares/auth');
+const { errors } = require('celebrate');
 
 const app = express();
 mongoose.connect('mongodb://localhost:27017/mestodb', {
@@ -24,16 +23,10 @@ const missingRouter = {
 };
 const missingRouterJson = JSON.stringify(missingRouter);
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: '5f6748b9de656839700ab7c3',
-  };
-  next();
-});
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', apiRouter);
+app.use(errors());
 
 app.use('*', (req, res) => {
   res

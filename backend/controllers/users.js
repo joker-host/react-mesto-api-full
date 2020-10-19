@@ -35,9 +35,7 @@ const getUserById = (req, res) => User.findById({ _id: req.params.id })
 
 const createUser = (req, res) => {
   const { email, password } = req.body;
-  if (!(email || password)) {
-    return res.status(400).send({ message: 'Пароль и логин - обязательные поля' });
-  }
+
 
   return bcrypt.hash(password, 10, (error, hash) => {
     if (error) {
@@ -61,11 +59,9 @@ const createUser = (req, res) => {
 
 const userAuth = (req, res) => {
   const { email, password } = req.body;
-  if (!(email || password)) {
-    return res.status(400).send({ message: 'Пароль и логин - обязательные поля' });
-  }
 
-  return User.findOne({ email })
+
+  return User.findOne({ email }).select('+password')
     .then(async user => {
       if (!user) {
         return res.status(401).send({ message: 'Такого пользователя не существует' })
