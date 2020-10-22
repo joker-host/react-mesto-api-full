@@ -7,6 +7,13 @@ const validationUser = celebrate({
   }),
 });
 
+const validationCard = celebrate({
+  body: Joi.object().keys({
+    title: Joi.string().required().email(),
+    url: Joi.string().required().min(5),
+  }),
+});
+
 module.exports = {
     validationUser
 };

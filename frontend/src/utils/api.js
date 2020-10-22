@@ -1,4 +1,4 @@
-import { headers, baseUrl } from './constants.js';
+import { headers, baseUrl, newBaseUrl } from './constants.js';
 
 const handleResponse = (result) => {
   if (result.ok) {
@@ -35,7 +35,7 @@ class Api {
   }
 
   addCards(values) {
-    return fetch(`${baseUrl}/cards`, {
+    return fetch(`${newBaseUrl}/cards`, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify({

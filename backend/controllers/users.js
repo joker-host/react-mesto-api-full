@@ -1,6 +1,8 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs');
+const ConflictError = require('../errors/ConflictError');
+const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const JWT_SECRET = 'secret!';
 
@@ -36,16 +38,13 @@ const getUserById = (req, res) => User.findById({ _id: req.params.id })
 const createUser = (req, res) => {
   const { email, password } = req.body;
 
-
   return bcrypt.hash(password, 10, (error, hash) => {
     if (error) {
       res.status(500).send({ message: 'Не удалось создать пользователя' })
     }
     return User.findOne({ email })
       .then(user => {
-        if (user) {
-          return res.status(409).send({ message: 'Такой пользователь уже существует' })
-        }
+        if (user) return next(new ConflictError('Такой пользователь уже существует'));
 
         return User.create({ email, password: hash })
           .then(user => {
@@ -64,13 +63,13 @@ const userAuth = (req, res) => {
   return User.findOne({ email }).select('+password')
     .then(async user => {
       if (!user) {
-        return res.status(401).send({ message: 'Такого пользователя не существует' })
+        return next(new UnauthorizedError({ message: 'Такого пользователя не существует' }));
       }
 
       const isPasswordMatch = await bcrypt.compare(password, user.password);
 
       if (!isPasswordMatch) {
-        return res.status(401).send({ message: 'Не правильный логин или пароль' })
+        return next(new UnauthorizedError({ message: 'Не правильный логин или пароль' }));
       } 
       
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET)

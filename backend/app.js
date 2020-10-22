@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { apiRouter } = require('./routes/apiRouter');
 const { errors } = require('celebrate');
+const { requestLogger, errorLogger } = require('./middlewares/logger')
+const NotFoundError = require('./errors/NotFoundError.js');
+
+const { PORT = 3000 } = process.env;
 
 const app = express();
 mongoose.connect('mongodb://localhost:27017/mestodb', {
@@ -23,18 +27,39 @@ const missingRouter = {
 };
 const missingRouterJson = JSON.stringify(missingRouter);
 
+app.use(requestLogger);
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', apiRouter);
+
+app.use(errorLogger); //добавить в git ignore
+
 app.use(errors());
 
-app.use('*', (req, res) => {
-  res
-    .status(404)
-    .send(missingRouterJson);
+// app.use('*', (req, res) => {
+//   throw new NotFoundError({ message: 'Запрашиваемый ресурс не найден' });
+// });
+
+app.use(() => {
+  throw new NotFoundError({ message: 'Запрашиваемый ресурс не найден' });
 });
 
-const { PORT = 3000 } = process.env;
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(err.status).send({ message: err.message });
+}); 
+
+// app.use((err, req, res, next) => {
+//   const { statusCode = 500, message } = err;
+//   res
+//     .status(statusCode)
+//     .send({
+//       message: statusCode === 500
+//         ? 'На сервере произошла ошибка'
+//         : message
+//     });
+// });
 
 app.listen(PORT, () => {
   console.log(`Мы слушаем на порту ${PORT}`);
