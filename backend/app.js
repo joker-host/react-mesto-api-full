@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const path = require("path")
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -19,13 +20,15 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const usersRouter = require('./routes/users').router;
-const cardsRouter = require('./routes/cards').router;
+// const usersRouter = require('./routes/users').router;
+// const cardsRouter = require('./routes/cards').router;
 
 const missingRouter = {
   message: 'Запрашиваемый ресурс не найден',
 };
 const missingRouterJson = JSON.stringify(missingRouter);
+
+app.use(cors());
 
 app.use(requestLogger);
 
@@ -46,8 +49,7 @@ app.use(() => {
 });
 
 app.use((err, req, res, next) => {
-  console.log(err);
-  res.status(err.status).send({ message: err.message });
+  res.status(err.status || 500).send({ message: err.message });
 }); 
 
 // app.use((err, req, res, next) => {

@@ -35,7 +35,7 @@ const getUserById = (req, res) => User.findById({ _id: req.params.id })
     res.status(500).send('На сервере произошла ошибка');
   });
 
-const createUser = (req, res) => {
+const createUser = (req, res, next) => {
   const { email, password } = req.body;
 
   return bcrypt.hash(password, 10, (error, hash) => {
@@ -56,9 +56,9 @@ const createUser = (req, res) => {
   })
 }
 
-const userAuth = (req, res) => {
+const userAuth = (req, res, next) => {
   const { email, password } = req.body;
-
+  
 
   return User.findOne({ email }).select('+password')
     .then(async user => {
@@ -72,8 +72,7 @@ const userAuth = (req, res) => {
         return next(new UnauthorizedError({ message: 'Не правильный логин или пароль' }));
       } 
       
-      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET)
-
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
       return res.status(200).send({ token });
         
     })

@@ -1,4 +1,5 @@
 const Card = require('../models/card');
+const BadRequestError = require('../errors/BadRequestError')
 
 const getAllCards = (req, res) => Card.find({})
   .then((data) => {
@@ -9,14 +10,17 @@ const getAllCards = (req, res) => Card.find({})
     res.status(200).send(data);
   });
 
-const createCard = (req, res) => {
-  const { _id } = req.user;
-
+const createCard = (req, res, next) => {
+  const _id  = req.user.id;
+  console.log(req.user.id);
   return Card.create({ name: req.body.name, link: req.body.link, owner: _id })
     .then((card) => {
+      
       res.status(201).send(card);
     })
     .catch((err) => {
+      // console.log(err);
+      // console.log(err.name);
       if (err.name = 'ValidationError') {
         res.status(400).send({ message: 'Переданы некорректные данные' });
         return;
