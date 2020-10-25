@@ -3,97 +3,92 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs');
 const ConflictError = require('../errors/ConflictError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
+const NotFoundError = require('../errors/NotFoundError');
 
-const JWT_SECRET = 'secret!';
-
-if(!process.env.JWT_SECRET) {
-  throw new Error ('Нужна переменная окружения')
+if (!process.env.JWT_SECRET) {
+  throw new Error('Нужна переменная окружения')
 }
 
-const getAllUsers = (req, res) => User.find({})
-  .then((data) => {
-    if (!data) {
-      res
-        .status(500)
-        .send('На сервере произошла ошибка');
-      return;
-    }
-    res.status(200).send(data);
-  });
+const getAllUsers = (req, res, next) => {
+  User
+  .find({})
+  .orFail(new UnauthorizedError('Необходимо авторизоваться'))
+  .then((data) => res.status(200).send(data))
+  .catch(next)
+}
 
-const getUserById = (req, res) => User.findById({ _id: req.params.id })
-  .then((user) => {
-    if (user === null) {
-      return res.status(404).send({ message: 'Пользователь не найден' });
-    }
-    return res.status(200).send(user);
-  })
-  .catch((error) => {
-    if (error.name = 'CastError') {
-      return res.status(404).send({ message: 'Пользователь не найден' });
-    }
-    res.status(500).send('На сервере произошла ошибка');
-  });
+const getUserById = (req, res, next) => {
+  User
+  .findById({ _id: req.params.id })
+  .orFail(new NotFoundError('Пользователь не найден'))
+  .then((user) => res.status(200).send(user))
+  .catch(next);
+}
 
 const createUser = (req, res, next) => {
   const { email, password } = req.body;
-
   return bcrypt.hash(password, 10, (error, hash) => {
     if (error) {
-      res.status(500).send({ message: 'Не удалось создать пользователя' })
+      res.status(500).send({ message: 'Не удалось создать пользователя' });
     }
     return User.findOne({ email })
       .then(user => {
         if (user) return next(new ConflictError('Такой пользователь уже существует'));
-
-        return User.create({ email, password: hash })
-          .then(user => {
-            return res.status(200).send({ message: `Пользователь ${user.email} успешно создан` })
-          })
-          .catch(err => res.status(500).send({ message: 'Не удалось создать пользователя' }))
+        return User
+        .create({ email, password: hash })
+        .then(user => {
+          return res.status(200).send({ message: `Пользователь ${user.email} успешно создан` })
+        })
+        .catch(next);
       })
-      .catch(err => res.status(500).send({ message: 'Не удалось проверить уникальность пользователя' }))
+      .catch(next);
   })
 }
 
 const userAuth = (req, res, next) => {
   const { email, password } = req.body;
-  
-
   return User.findOne({ email }).select('+password')
     .then(async user => {
       if (!user) {
         return next(new UnauthorizedError({ message: 'Такого пользователя не существует' }));
       }
-
       const isPasswordMatch = await bcrypt.compare(password, user.password);
-
       if (!isPasswordMatch) {
         return next(new UnauthorizedError({ message: 'Не правильный логин или пароль' }));
-      } 
-      
+      }
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
       return res.status(200).send({ token });
-        
     })
-    .catch(err => res.status(500).send({ message: 'Не удалось найти пользователя' }))
+    .catch(next)
 }
 
-// const createUser = (req, res) => User.create(req.body)
-//   .then((user) => {
-//     return res.status(201).send(user);
-//   })
-//   .catch((error) => {
-//     if (error.name === 'ValidationError') {
-//       res.status(400).send({ message: 'Получены не корректные данные' });
-//       return;
-//     }
-//     res.status(500).send('На сервере произошла ошибка');
-//   });
+const changeAvatar = (req, res, next) => {
+  const { avatarLink } = req.body;
+  User
+  .findOneAndUpdate(
+    { _id: req.user.id},
+    { $set: {avatar: avatarLink} }
+  )
+  .then(user => res.status(200).send(user))
+  .catch(next);
+}
+
+const profileEdit = (req, res, next) => {
+  const { name, about } = req.body;
+  User
+  .findOneAndUpdate(
+    { _id: req.user.id },
+    { $set: {name: name, about: about} }
+  )
+  .then(user => res.status(200).send(user))
+  .catch(next)
+}
 
 module.exports = {
   getAllUsers,
   getUserById,
   createUser,
-  userAuth
+  userAuth,
+  changeAvatar,
+  profileEdit
 };

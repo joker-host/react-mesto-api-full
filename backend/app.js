@@ -20,14 +20,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// const usersRouter = require('./routes/users').router;
-// const cardsRouter = require('./routes/cards').router;
-
-const missingRouter = {
-  message: 'Запрашиваемый ресурс не найден',
-};
-const missingRouterJson = JSON.stringify(missingRouter);
-
 app.use(cors());
 
 app.use(requestLogger);
@@ -48,20 +40,20 @@ app.use(() => {
   throw new NotFoundError({ message: 'Запрашиваемый ресурс не найден' });
 });
 
-app.use((err, req, res, next) => {
-  res.status(err.status || 500).send({ message: err.message });
-}); 
-
 // app.use((err, req, res, next) => {
-//   const { statusCode = 500, message } = err;
-//   res
-//     .status(statusCode)
-//     .send({
-//       message: statusCode === 500
-//         ? 'На сервере произошла ошибка'
-//         : message
-//     });
+//   res.status(err.status || 500).send({ message: err.message });
 // });
+
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message } = err;
+  res
+    .status(statusCode)
+    .send({
+      message: statusCode === 500
+        ? 'На сервере произошла ошибка'
+        : message
+    });
+});
 
 app.listen(PORT, () => {
   console.log(`Мы слушаем на порту ${PORT}`);

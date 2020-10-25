@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     require: true,
     minlength: 2,
     maxlength: 30,
+    default: 'Придумайте имя'
   },
 
   email: {
@@ -24,6 +25,7 @@ const userSchema = new mongoose.Schema({
     require: true,
     minlength: 2,
     maxlength: 30,
+    default: 'Напишите пару слов о себе'
   },
 
   avatar: {
@@ -35,6 +37,7 @@ const userSchema = new mongoose.Schema({
       },
       message: (props) => `${props.value} is not a valid link`,
     },
+    default: 'https://wool-cotton.com/image/placeholder.png'
   },
 
 },
