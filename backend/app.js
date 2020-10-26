@@ -40,20 +40,20 @@ app.use(() => {
   throw new NotFoundError({ message: 'Запрашиваемый ресурс не найден' });
 });
 
-// app.use((err, req, res, next) => {
-//   res.status(err.status || 500).send({ message: err.message });
-// });
-
 app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-  res
-    .status(statusCode)
-    .send({
-      message: statusCode === 500
-        ? 'На сервере произошла ошибка'
-        : message
-    });
+  res.status(err.status || 500).send({ message: err.message || 'На сервере произошла ошибка'});
 });
+
+// app.use((err, req, res, next) => {
+//   const { statusCode = 500, message } = err;
+//   res
+//     .status(statusCode)
+//     .send({
+//       message: statusCode === 500
+//         ? 'На сервере произошла ошибка'
+//         : message
+//     });
+// });
 
 app.listen(PORT, () => {
   console.log(`Мы слушаем на порту ${PORT}`);

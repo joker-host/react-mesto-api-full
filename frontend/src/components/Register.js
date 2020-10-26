@@ -13,8 +13,7 @@ const Register = ({ setIsRegisterPopupOpen, setOnFail }) => {
     evt.preventDefault();
     register(email, password)
       .then((res) => {
-        console.log(res);
-        if (res.data) {
+        if (res.success) {
           setIsRegisterPopupOpen(res);
           setOnFail('');
           history.push('/signin');

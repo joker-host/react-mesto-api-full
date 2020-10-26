@@ -27,19 +27,16 @@ const getUserById = (req, res, next) => {
 
 const createUser = (req, res, next) => {
   const { email, password } = req.body;
-  return bcrypt.hash(password, 10, (error, hash) => {
-    if (error) {
-      res.status(500).send({ message: 'Не удалось создать пользователя' });
-    }
-    return User.findOne({ email })
+  bcrypt.hash(password, 10, (error, hash) => {
+    User.findOne({ email })
       .then(user => {
         if (user) return next(new ConflictError('Такой пользователь уже существует'));
         return User
         .create({ email, password: hash })
         .then(user => {
-          return res.status(200).send({ message: `Пользователь ${user.email} успешно создан` })
+          return res.status(200).send({ success: true, message: `Пользователь ${user.email} успешно создан` })
         })
-        .catch(next);
+        .catch(err => console.log(err));
       })
       .catch(next);
   })
@@ -50,11 +47,11 @@ const userAuth = (req, res, next) => {
   return User.findOne({ email }).select('+password')
     .then(async user => {
       if (!user) {
-        return next(new UnauthorizedError({ message: 'Такого пользователя не существует' }));
+        return next(new UnauthorizedError('Такого пользователя не существует'));
       }
       const isPasswordMatch = await bcrypt.compare(password, user.password);
       if (!isPasswordMatch) {
-        return next(new UnauthorizedError({ message: 'Не правильный логин или пароль' }));
+        return next(new UnauthorizedError('Не правильный логин или пароль'));
       }
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
       return res.status(200).send({ token });
