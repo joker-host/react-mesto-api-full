@@ -30,8 +30,9 @@ function App() {
       getContent(jwt)
         .then((res) => {
           if (res) {
+            console.log(res)
             setLoggedIn(true);
-            setUserEmail(res.data.email);
+            // setUserEmail(res.data.email);
             history.push('/main');
           }
         })

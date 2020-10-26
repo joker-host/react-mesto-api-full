@@ -53,11 +53,19 @@ const userAuth = (req, res, next) => {
       if (!isPasswordMatch) {
         return next(new UnauthorizedError('Не правильный логин или пароль'));
       }
-      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+      const token = jwt.sign(
+        { id: user.id }, 
+        process.env.JWT_SECRET,
+        { expiresIn: '7d' }
+      );
       return res.status(200).send({ token });
     })
     .catch(next)
 }
+
+// const getUserInfo = (req, res, next) => {
+//   const token
+// }
 
 const changeAvatar = (req, res, next) => {
   const { avatarLink } = req.body;
