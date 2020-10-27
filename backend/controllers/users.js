@@ -63,16 +63,14 @@ const userAuth = (req, res, next) => {
     .catch(next)
 }
 
-// const getUserInfo = (req, res, next) => {
-//   const token
-// }
-
 const changeAvatar = (req, res, next) => {
-  const { avatarLink } = req.body;
+  const avatarLink = req.body.avatar;
+  console.log(avatarLink)
   User
   .findOneAndUpdate(
     { _id: req.user.id},
-    { $set: {avatar: avatarLink} }
+    { $set: {avatar: avatarLink} },
+    { new: true, runValidators: true, upsert: true }
   )
   .then(user => res.status(200).send(user))
   .catch(next);
@@ -83,7 +81,8 @@ const profileEdit = (req, res, next) => {
   User
   .findOneAndUpdate(
     { _id: req.user.id },
-    { $set: {name: name, about: about} }
+    { $set: {name: name, about: about} },
+    { new: true, runValidators: true, upsert: true }
   )
   .then(user => res.status(200).send(user))
   .catch(next)

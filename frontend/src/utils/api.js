@@ -19,17 +19,13 @@ class Api {
     }).then(handleResponse);
   }
 
-  // getUserInfo() {
-  //   return fetch(`${newBaseUrl}/users/me`, {
-  //     method: 'GET',
-  //     headers: headers,
-  //   }).then(handleResponse);
-  // }
-
-  setUserUnfo(values) {
-    return fetch(`${baseUrl}/users/me`, {
+  setUserUnfo(values, token) {
+    return fetch(`${newBaseUrl}/users/me`, {
       method: 'PATCH',
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         name: values.name,
         about: values.about,
@@ -37,10 +33,13 @@ class Api {
     }).then(handleResponse);
   }
 
-  addCards(values) {
+  addCards(values, token) {
     return fetch(`${newBaseUrl}/cards`, {
       method: 'POST',
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         name: values.name,
         link: values.link,
@@ -48,31 +47,43 @@ class Api {
     }).then(handleResponse);
   }
 
-  likeCards(idCard) {
-    return fetch(`${baseUrl}/cards/likes/${idCard}`, {
+  likeCards(idCard, token) {
+    return fetch(`${newBaseUrl}/cards/likes/${idCard}`, {
       method: 'PUT',
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
     }).then(handleResponse);
   }
 
-  disLikeCards(idCard) {
-    return fetch(`${baseUrl}/cards/likes/${idCard}`, {
+  disLikeCards(idCard, token) {
+    return fetch(`${newBaseUrl}/cards/likes/${idCard}`, {
       method: 'DELETE',
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
     }).then(handleResponse);
   }
 
-  deleteCards(idCard) {
-    return fetch(`${baseUrl}/cards/${idCard}`, {
+  deleteCards(idCard, token) {
+    return fetch(`${newBaseUrl}/cards/${idCard}`, {
       method: 'DELETE',
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
     }).then(handleResponse);
   }
 
-  changeAvatar(values) {
-    return fetch(`${baseUrl}/users/me/avatar`, {
+  changeAvatar(values, token) {
+    return fetch(`${newBaseUrl}/users/me/avatar`, {
       method: 'PATCH',
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         avatar: values.avatarUrl,
       }),

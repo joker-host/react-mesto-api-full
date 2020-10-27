@@ -31,6 +31,7 @@ function App() {
         .then((res) => {
           if (res) {
             setLoggedIn(true);
+            setCurrentUser(res)
             setUserEmail(res.email);
             history.push('/main');
           }
@@ -103,56 +104,37 @@ function App() {
     _id: '',
   });
 
-  useEffect(() => {
-    // получение объекта с информацией о пользователе
+  React.useEffect(() => { //получение карточек с сервера
     const jwt = localStorage.getItem('jwt');
-    const userInfoProm = new Promise((resolve, reject) => {
-        getContent(jwt)
-        .then((res) => {
-          resolve(res);
-        })
-        .catch(() => {
-          reject(console.error('error'));
-        });
-    });
-
-    //получение карточек с сервера
-    const cardsProm = new Promise((resolve, reject) => {
-      const jwt = localStorage.getItem('jwt');
-      api
-        .getInitialCards(jwt)
-        .then((data) => {
-          console.log(data)
-          resolve(data);
-        })
-        .catch(() => {
-          reject(console.error('error'));
-        });
-    });
-
-    Promise.all([userInfoProm, cardsProm]).then((data) => {
-      setCurrentUser(data[0]);
-      setCards(data[1]);
-    });
-  }, []);
+    api.getInitialCards(jwt) 
+      .then(data => { 
+        setCards(data); 
+      }) 
+      .catch(() => { 
+        console.error('error'); 
+      }) 
+  }, [loggedIn])
 
   const [cards, setCards] = useState([]); // актуальный массив с карточками
 
   function handleAddPlaceSubmit(values) {
     //добавление новой карточки
+    const jwt = localStorage.getItem('jwt');
     setIsLoading(true);
-    api.addCards(values).then((newCard) => {
-      setCards([...cards, newCard]);
-      setIsLoading(false);
+    api
+      .addCards(values, jwt)
+      .then((newCard) => {
+      setCards([newCard, ...cards]);
       closeAllPopups();
-    });
+    })
+      .finally(() => setIsLoading(false))
   }
 
   function handleCardLike(props) {
     //лайк/дизлайк карточки
+    const jwt = localStorage.getItem('jwt');
     setIsLoading(true);
-    const isLiked = props.likes.some((i) => i._id === currentUser._id);
-
+    const isLiked = props.likes.some((i) => i === currentUser._id);
     const cardCallback = (newCard) => {
       const newCards = cards.map((item) => (item._id === props._id ? newCard : item));
       setCards(newCards);
@@ -160,9 +142,9 @@ function App() {
     };
 
     if (!isLiked) {
-      api.likeCards(props._id).then(cardCallback);
+      api.likeCards(props._id, jwt).then(cardCallback);
     } else {
-      api.disLikeCards(props._id).then(cardCallback);
+      api.disLikeCards(props._id, jwt).then(cardCallback);
     }
   }
 
@@ -172,13 +154,16 @@ function App() {
     // удаление карточки
     handleDeleteCardsClick();
     setDeleteCard(props);
+    console.log(deleteCard)
   }
 
-  function deletedCard(deletedCard) {
+  function deletedCard(deletedCardId) {
     // удаление карточки
+    const jwt = localStorage.getItem('jwt');
     setIsLoading(true);
-    api.deleteCards(deletedCard._id).then(() => {
-      const newCards = cards.filter((card) => card._id != deletedCard._id);
+    api.deleteCards(deletedCardId, jwt)
+      .then(() => {
+      const newCards = cards.filter((card) => card._id != deletedCardId);
       setCards(newCards);
       setIsLoading(false);
       closeAllPopups();
@@ -187,26 +172,39 @@ function App() {
 
   function handleUpdateUser(values) {
     // изменение информции пользователя
+    const jwt = localStorage.getItem('jwt');
     setIsLoading(true);
-    api.setUserUnfo(values).then((res) => {
+    api
+      .setUserUnfo(values, jwt)
+      .then((res) => {
       setCurrentUser(res);
-      setIsLoading(false);
       closeAllPopups();
-    });
+    })
+      .finally(() => setIsLoading(false))
   }
 
   function handleUpdateAvatar(values) {
     // изменение аватара
+    const jwt = localStorage.getItem('jwt');
     setIsLoading(true);
-    api.changeAvatar(values).then((res) => {
+    api
+      .changeAvatar(values, jwt)
+      .then((res) => {
       setCurrentUser(res);
-      setIsLoading(false);
       closeAllPopups();
-    });
+    })
+      .finally(() => setIsLoading(false))
   }
 
   function handleLogout() {
     setLoggedIn(false);
+    setCurrentUser({
+      name: '',
+      about: '',
+      avatar: '',
+      _id: '',
+    })
+    console.log(currentUser)
   }
 
   const [isloading, setIsLoading] = React.useState(false);
@@ -283,6 +281,3 @@ function App() {
 }
 
 export default App;
-
-/// andrey@ya.ru
-/// 12345

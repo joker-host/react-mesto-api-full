@@ -19,7 +19,6 @@ function Main({
         <div className='profile__avatar-wrapper' onClick={onEditAvatar}>
           <div className='profile__avatar-overlay'></div>
           <img
-            alt='здесь должна быть аватарка :)'
             className='profile__avatar'
             src={userInfo.avatar}
           />
