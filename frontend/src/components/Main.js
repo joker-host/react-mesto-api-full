@@ -13,7 +13,6 @@ function Main({
   loadingIndicator,
 }) {
   const userInfo = React.useContext(UserContext);
-
   return (
     <main className='content'>
       <section className='profile'>

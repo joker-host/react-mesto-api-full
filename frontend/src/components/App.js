@@ -30,9 +30,8 @@ function App() {
       getContent(jwt)
         .then((res) => {
           if (res) {
-            console.log(res)
             setLoggedIn(true);
-            // setUserEmail(res.data.email);
+            setUserEmail(res.email);
             history.push('/main');
           }
         })
@@ -102,14 +101,13 @@ function App() {
     about: '',
     avatar: '',
     _id: '',
-    cohort: '',
   });
 
   useEffect(() => {
     // получение объекта с информацией о пользователе
+    const jwt = localStorage.getItem('jwt');
     const userInfoProm = new Promise((resolve, reject) => {
-      api
-        .getUserInfo()
+        getContent(jwt)
         .then((res) => {
           resolve(res);
         })
@@ -120,9 +118,11 @@ function App() {
 
     //получение карточек с сервера
     const cardsProm = new Promise((resolve, reject) => {
+      const jwt = localStorage.getItem('jwt');
       api
-        .getInitialCards()
+        .getInitialCards(jwt)
         .then((data) => {
+          console.log(data)
           resolve(data);
         })
         .catch(() => {

@@ -9,19 +9,22 @@ const handleResponse = (result) => {
 };
 
 class Api {
-  getInitialCards() {
-    return fetch(`${baseUrl}/cards`, {
+  getInitialCards(token) {
+    return fetch(`${newBaseUrl}/cards`, {
       method: 'GET',
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
     }).then(handleResponse);
   }
 
-  getUserInfo() {
-    return fetch(`${baseUrl}/users/me`, {
-      method: 'GET',
-      headers: headers,
-    }).then(handleResponse);
-  }
+  // getUserInfo() {
+  //   return fetch(`${newBaseUrl}/users/me`, {
+  //     method: 'GET',
+  //     headers: headers,
+  //   }).then(handleResponse);
+  // }
 
   setUserUnfo(values) {
     return fetch(`${baseUrl}/users/me`, {

@@ -19,7 +19,7 @@ const getAllUsers = (req, res, next) => {
 
 const getUserById = (req, res, next) => {
   User
-  .findById({ _id: req.params.id })
+  .findById(req.user.id)
   .orFail(new NotFoundError('Пользователь не найден'))
   .then((user) => res.status(200).send(user))
   .catch(next);
@@ -54,7 +54,7 @@ const userAuth = (req, res, next) => {
         return next(new UnauthorizedError('Не правильный логин или пароль'));
       }
       const token = jwt.sign(
-        { id: user.id }, 
+        { id: user.id },
         process.env.JWT_SECRET,
         { expiresIn: '7d' }
       );

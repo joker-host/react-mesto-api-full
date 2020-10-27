@@ -1,5 +1,3 @@
-// +7 925-373-77-29
-
 class BadRequestError extends Error {
     constructor(message, ...rest) {
         super(...rest);

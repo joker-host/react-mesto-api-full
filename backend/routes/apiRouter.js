@@ -9,8 +9,8 @@ apiRouter.get('/users', auth, getAllUsers);
 apiRouter.get('/users/:id', auth, getUserById);
 apiRouter.post('/signup', validationUser, createUser);
 apiRouter.post('/signin', validationUser, userAuth);
-apiRouter.get('/users/me', auth, profileEdit);
-// apiRouter.patch('/users/me', auth, profileEdit);
+apiRouter.get('/users/me', auth, getUserById);
+apiRouter.patch('/users/me', auth, profileEdit);
 apiRouter.patch('/users/me/avatar', auth, changeAvatar);
 
 apiRouter.get('/cards', auth, getAllCards);
