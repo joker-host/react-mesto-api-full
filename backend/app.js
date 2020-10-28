@@ -11,6 +11,9 @@ const NotFoundError = require('./errors/NotFoundError.js');
 const { PORT = 3000 } = process.env;
 
 const app = express();
+
+app.use(cors());
+
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -27,8 +30,6 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
   next();
 });
-
-app.use(cors());
 
 app.use(requestLogger);
 
