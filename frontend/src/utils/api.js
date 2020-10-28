@@ -12,6 +12,7 @@ class Api {
   getInitialCards(token) {
     return fetch(`${baseUrl}/cards`, {
       method: 'GET',
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -22,6 +23,7 @@ class Api {
   setUserUnfo(values, token) {
     return fetch(`${baseUrl}/users/me`, {
       method: 'PATCH',
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -36,6 +38,7 @@ class Api {
   addCards(values, token) {
     return fetch(`${baseUrl}/cards`, {
       method: 'POST',
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -50,6 +53,7 @@ class Api {
   likeCards(idCard, token) {
     return fetch(`${baseUrl}/cards/likes/${idCard}`, {
       method: 'PUT',
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -60,6 +64,7 @@ class Api {
   disLikeCards(idCard, token) {
     return fetch(`${baseUrl}/cards/likes/${idCard}`, {
       method: 'DELETE',
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -70,6 +75,7 @@ class Api {
   deleteCards(idCard, token) {
     return fetch(`${baseUrl}/cards/${idCard}`, {
       method: 'DELETE',
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -80,6 +86,7 @@ class Api {
   changeAvatar(values, token) {
     return fetch(`${baseUrl}/users/me/avatar`, {
       method: 'PATCH',
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -93,6 +100,7 @@ class Api {
   register(email, password) {
     return fetch(`${baseUrl}/signup`, {
       method: 'POST',
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -112,6 +120,7 @@ class Api {
   authorize(email, password) {
     return fetch(`${baseUrl}/signin`, {
       method: 'POST',
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -130,6 +139,7 @@ class Api {
   getContent(token) {
     return fetch(`${baseUrl}/users/me`, {
       method: 'GET',
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
