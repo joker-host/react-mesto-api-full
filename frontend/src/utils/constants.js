@@ -1,3 +1,3 @@
-const baseUrl = 'http://localhost:3000/';
+const baseUrl = 'http://api.joker.students.nomoreparties.co';
 
 export { baseUrl };
