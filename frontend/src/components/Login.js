@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
-import { authorize } from '../utils/mestoAuth.js';
+import { api } from '../utils/api.js';
+// import { authorize } from '../utils/mestoAuth.js';
 
 function Login({ handleLogin, onFail, setOnFail }) {
   const [email, setEmail] = useState('');
@@ -21,7 +22,8 @@ function Login({ handleLogin, onFail, setOnFail }) {
       console.error('Не заполнены некоторые обязательные поля');
     }
 
-    authorize(email, password)
+    api
+      .authorize(email, password)
       .then((data) => {
         if (data.token) {
           resetForm();

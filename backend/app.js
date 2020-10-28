@@ -1,11 +1,11 @@
 const express = require('express');
-const cors = require('cors')
-const path = require("path")
+const cors = require('cors');
+const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { apiRouter } = require('./routes/apiRouter');
 const { errors } = require('celebrate');
-const { requestLogger, errorLogger } = require('./middlewares/logger')
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./errors/NotFoundError.js');
 
 const { PORT = 3000 } = process.env;
@@ -37,8 +37,8 @@ app.use(() => {
 });
 
 app.use((err, req, res, next) => {
-  console.log(err)
-  res.status(err.status || 500).send({ message: err.message || 'На сервере произошла ошибка'});
+  console.log(err);
+  res.status(err.status || 500).send({ message: err.message || 'На сервере произошла ошибка' });
 });
 
 app.listen(PORT, () => {

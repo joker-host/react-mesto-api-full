@@ -1,4 +1,4 @@
-import { headers, baseUrl, newBaseUrl } from './constants.js';
+import { baseUrl } from './constants.js';
 
 const handleResponse = (result) => {
   if (result.ok) {
@@ -10,7 +10,7 @@ const handleResponse = (result) => {
 
 class Api {
   getInitialCards(token) {
-    return fetch(`${newBaseUrl}/cards`, {
+    return fetch(`${baseUrl}/cards`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ class Api {
   }
 
   setUserUnfo(values, token) {
-    return fetch(`${newBaseUrl}/users/me`, {
+    return fetch(`${baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ class Api {
   }
 
   addCards(values, token) {
-    return fetch(`${newBaseUrl}/cards`, {
+    return fetch(`${baseUrl}/cards`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ class Api {
   }
 
   likeCards(idCard, token) {
-    return fetch(`${newBaseUrl}/cards/likes/${idCard}`, {
+    return fetch(`${baseUrl}/cards/likes/${idCard}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ class Api {
   }
 
   disLikeCards(idCard, token) {
-    return fetch(`${newBaseUrl}/cards/likes/${idCard}`, {
+    return fetch(`${baseUrl}/cards/likes/${idCard}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ class Api {
   }
 
   deleteCards(idCard, token) {
-    return fetch(`${newBaseUrl}/cards/${idCard}`, {
+    return fetch(`${baseUrl}/cards/${idCard}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ class Api {
   }
 
   changeAvatar(values, token) {
-    return fetch(`${newBaseUrl}/users/me/avatar`, {
+    return fetch(`${baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -88,6 +88,60 @@ class Api {
         avatar: values.avatarUrl,
       }),
     }).then(handleResponse);
+  }
+
+  register(email, password) {
+    return fetch(`${baseUrl}/signup`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  authorize(email, password) {
+    return fetch(`${baseUrl}/signin`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        localStorage.setItem('jwt', data.token);
+        return data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  getContent(token) {
+    return fetch(`${baseUrl}/users/me`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => data)
+      .catch((err) => {
+        console.log(err);
+      });
   }
 }
 

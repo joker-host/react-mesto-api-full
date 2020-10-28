@@ -18,10 +18,7 @@ function Main({
       <section className='profile'>
         <div className='profile__avatar-wrapper' onClick={onEditAvatar}>
           <div className='profile__avatar-overlay'></div>
-          <img
-            className='profile__avatar'
-            src={userInfo.avatar}
-          />
+          <img className='profile__avatar' src={userInfo.avatar} />
         </div>
         <div className='profile__info'>
           <h2 className='profile__author'>{userInfo.name}</h2>

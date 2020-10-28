@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
-import { register } from '../utils/mestoAuth.js';
+import { api } from '../utils/api.js';
+// import { register } from '../utils/mestoAuth.js';
 
 const Register = ({ setIsRegisterPopupOpen, setOnFail }) => {
   const [email, setEmail] = useState('');
@@ -11,7 +12,8 @@ const Register = ({ setIsRegisterPopupOpen, setOnFail }) => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    register(email, password)
+    api
+      .register(email, password)
       .then((res) => {
         if (res.success) {
           setIsRegisterPopupOpen(res);

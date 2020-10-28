@@ -13,7 +13,7 @@ import Register from './Register';
 import Login from './Login';
 import ProtectedRoute from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
-import { getContent } from '../utils/mestoAuth.js';
+// import { getContent } from '../utils/mestoAuth.js';
 import { api } from '../utils/api.js';
 import { UserContext } from '../contexts/CurrentUserContext.js';
 
@@ -27,11 +27,12 @@ function App() {
   const tokenCheck = () => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
-      getContent(jwt)
+      api
+        .getContent(jwt)
         .then((res) => {
           if (res) {
             setLoggedIn(true);
-            setCurrentUser(res)
+            setCurrentUser(res);
             setUserEmail(res.email);
             history.push('/main');
           }
@@ -44,7 +45,7 @@ function App() {
 
   useEffect(() => {
     tokenCheck();
-  }, [loggedIn]);
+  }, [loggedIn, history]);
 
   const handleLogin = () => {
     setLoggedIn(true);
@@ -104,16 +105,18 @@ function App() {
     _id: '',
   });
 
-  React.useEffect(() => { //получение карточек с сервера
+  React.useEffect(() => {
+    //получение карточек с сервера
     const jwt = localStorage.getItem('jwt');
-    api.getInitialCards(jwt) 
-      .then(data => { 
-        setCards(data); 
-      }) 
-      .catch(() => { 
-        console.error('error'); 
-      }) 
-  }, [loggedIn])
+    api
+      .getInitialCards(jwt)
+      .then((data) => {
+        setCards(data);
+      })
+      .catch(() => {
+        console.error('error');
+      });
+  }, [loggedIn]);
 
   const [cards, setCards] = useState([]); // актуальный массив с карточками
 
@@ -124,10 +127,10 @@ function App() {
     api
       .addCards(values, jwt)
       .then((newCard) => {
-      setCards([newCard, ...cards]);
-      closeAllPopups();
-    })
-      .finally(() => setIsLoading(false))
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .finally(() => setIsLoading(false));
   }
 
   function handleCardLike(props) {
@@ -154,15 +157,14 @@ function App() {
     // удаление карточки
     handleDeleteCardsClick();
     setDeleteCard(props);
-    console.log(deleteCard)
+    console.log(deleteCard);
   }
 
   function deletedCard(deletedCardId) {
     // удаление карточки
     const jwt = localStorage.getItem('jwt');
     setIsLoading(true);
-    api.deleteCards(deletedCardId, jwt)
-      .then(() => {
+    api.deleteCards(deletedCardId, jwt).then(() => {
       const newCards = cards.filter((card) => card._id != deletedCardId);
       setCards(newCards);
       setIsLoading(false);
@@ -177,10 +179,10 @@ function App() {
     api
       .setUserUnfo(values, jwt)
       .then((res) => {
-      setCurrentUser(res);
-      closeAllPopups();
-    })
-      .finally(() => setIsLoading(false))
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .finally(() => setIsLoading(false));
   }
 
   function handleUpdateAvatar(values) {
@@ -190,10 +192,10 @@ function App() {
     api
       .changeAvatar(values, jwt)
       .then((res) => {
-      setCurrentUser(res);
-      closeAllPopups();
-    })
-      .finally(() => setIsLoading(false))
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .finally(() => setIsLoading(false));
   }
 
   function handleLogout() {
@@ -203,8 +205,8 @@ function App() {
       about: '',
       avatar: '',
       _id: '',
-    })
-    console.log(currentUser)
+    });
+    console.log(currentUser);
   }
 
   const [isloading, setIsLoading] = React.useState(false);
