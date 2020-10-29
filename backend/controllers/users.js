@@ -23,19 +23,16 @@ const getUserById = (req, res, next) => {
 
 const createUser = (req, res, next) => {
   const { email, password } = req.body;
-  bcrypt.hash(password, 10, (error, hash) => {
-    User.findOne({ email })
-      .then((user) => {
-        if (user) return next(new ConflictError('Такой пользователь уже существует'));
-        return User.create({ email, password: hash })
-          .then((user) => {
-            return res
-              .status(200)
-              .send({ success: true, message: `Пользователь ${user.email} успешно создан` });
-          })
-          .catch((err) => console.log(err));
-      })
-      .catch(next);
+  bcrypt.hash(password, 10).then((hashPass) => {
+    User.create({ password: hashPass, email })
+      .then((user) => res.status(200).send({ _id: user._id }))
+      .catch((error) => {
+        if (error.code === 11000) {
+          next(new NotFoundError('Пользователь с такими данными уже существует'));
+        } else {
+          next(new NotFoundError(error.message));
+        }
+      });
   });
 };
 
