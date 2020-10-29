@@ -35,6 +35,9 @@ function App() {
             setCurrentUser(res);
             setUserEmail(res.email);
             history.push('/main');
+          } else {
+            setLoggedIn(false);
+            localStorage.removeItem('jwt')
           }
         })
         .catch((err) => {
@@ -107,14 +110,14 @@ function App() {
 
   React.useEffect(() => {
     //получение карточек с сервера
-    const jwt = localStorage.getItem('jwt');
     api
-      .getInitialCards(jwt)
+      .getInitialCards()
       .then((data) => {
+        console.log(data)
         setCards(data);
       })
-      .catch(() => {
-        console.error('error');
+      .catch((error) => {
+        console.log(error);
       });
   }, [loggedIn]);
 
@@ -122,10 +125,9 @@ function App() {
 
   function handleAddPlaceSubmit(values) {
     //добавление новой карточки
-    const jwt = localStorage.getItem('jwt');
     setIsLoading(true);
     api
-      .addCards(values, jwt)
+      .addCards(values)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
@@ -135,7 +137,6 @@ function App() {
 
   function handleCardLike(props) {
     //лайк/дизлайк карточки
-    const jwt = localStorage.getItem('jwt');
     setIsLoading(true);
     const isLiked = props.likes.some((i) => i === currentUser._id);
     const cardCallback = (newCard) => {
@@ -145,9 +146,9 @@ function App() {
     };
 
     if (!isLiked) {
-      api.likeCards(props._id, jwt).then(cardCallback);
+      api.likeCards(props._id).then(cardCallback);
     } else {
-      api.disLikeCards(props._id, jwt).then(cardCallback);
+      api.disLikeCards(props._id).then(cardCallback);
     }
   }
 
@@ -162,9 +163,8 @@ function App() {
 
   function deletedCard(deletedCardId) {
     // удаление карточки
-    const jwt = localStorage.getItem('jwt');
     setIsLoading(true);
-    api.deleteCards(deletedCardId, jwt).then(() => {
+    api.deleteCards(deletedCardId).then(() => {
       const newCards = cards.filter((card) => card._id != deletedCardId);
       setCards(newCards);
       setIsLoading(false);
@@ -174,10 +174,9 @@ function App() {
 
   function handleUpdateUser(values) {
     // изменение информции пользователя
-    const jwt = localStorage.getItem('jwt');
     setIsLoading(true);
     api
-      .setUserUnfo(values, jwt)
+      .setUserUnfo(values)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -187,10 +186,9 @@ function App() {
 
   function handleUpdateAvatar(values) {
     // изменение аватара
-    const jwt = localStorage.getItem('jwt');
     setIsLoading(true);
     api
-      .changeAvatar(values, jwt)
+      .changeAvatar(values)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();

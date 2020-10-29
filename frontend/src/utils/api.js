@@ -9,24 +9,24 @@ const handleResponse = (result) => {
 };
 
 class Api {
-  getInitialCards(token) {
+  getInitialCards() {
     return fetch(`${baseUrl}/cards`, {
       method: 'GET',
       mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
     }).then(handleResponse);
   }
 
-  setUserUnfo(values, token) {
+  setUserUnfo(values) {
     return fetch(`${baseUrl}/users/me`, {
       method: 'PATCH',
       mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
       },
       body: JSON.stringify({
         name: values.name,
@@ -35,13 +35,13 @@ class Api {
     }).then(handleResponse);
   }
 
-  addCards(values, token) {
+  addCards(values) {
     return fetch(`${baseUrl}/cards`, {
       method: 'POST',
       mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
       },
       body: JSON.stringify({
         name: values.name,
@@ -50,24 +50,24 @@ class Api {
     }).then(handleResponse);
   }
 
-  likeCards(idCard, token) {
+  likeCards(idCard) {
     return fetch(`${baseUrl}/cards/likes/${idCard}`, {
       method: 'PUT',
       mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
     }).then(handleResponse);
   }
 
-  disLikeCards(idCard, token) {
+  disLikeCards(idCard) {
     return fetch(`${baseUrl}/cards/likes/${idCard}`, {
       method: 'DELETE',
       mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
     }).then(handleResponse);
   }
@@ -78,18 +78,18 @@ class Api {
       mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
     }).then(handleResponse);
   }
 
-  changeAvatar(values, token) {
+  changeAvatar(values) {
     return fetch(`${baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
       body: JSON.stringify({
         avatar: values.avatarUrl,
@@ -136,13 +136,13 @@ class Api {
       });
   }
 
-  getContent(token) {
+  getContent() {
     return fetch(`${baseUrl}/users/me`, {
       method: 'GET',
       mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
     })
       .then((res) => {
