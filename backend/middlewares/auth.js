@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
   const token = req.headers.authorization && req.headers.authorization.replace('Bearer ', '');
   let payload;
   try {
-    payload = jwt.verify(token, JWT_SECRET);
+    payload = jwt.verify(token, `${NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret'}`);
   } catch (err) {
     throw new UnauthorizedError({ message: 'Необходима авторизация' });
   }
