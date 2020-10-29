@@ -9,11 +9,12 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./errors/NotFoundError.js');
 const rateLimit = require('express-rate-limit');
 const limiter = rateLimit({  windowMs: 60 * 60 * 1000,  max: 500,});
-app.use(limiter);
 
 const { PORT = 3000 } = process.env;
 
 const app = express();
+
+app.use(limiter);
 
 app.use(cors());
 
