@@ -9,6 +9,8 @@ const NotFoundError = require('../errors/NotFoundError');
 //   throw new Error('Нужна переменная окружения');
 // }
 
+const { JWT_SECRET, NODE_ENV } = process.env;
+
 const getAllUsers = (req, res, next) => {
   User.find({})
     .orFail(new UnauthorizedError('Необходимо авторизоваться'))
