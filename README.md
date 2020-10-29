@@ -13,4 +13,7 @@
 * Java-script
 
 ## Ссылка на проект
-https://joker-host.github.io/mesto/index.html
+Frontend: http://www.white.students.nomoreparties.co/
+Backend: http://api.white.students.nomoreparties.co/
+
+Ip: 178.154.228.35
