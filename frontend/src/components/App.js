@@ -32,7 +32,6 @@ function App() {
         .then((res) => {
           if (res) {
             setLoggedIn(true);
-            setCurrentUser(res);
             setUserEmail(res.email);
             history.push('/main');
           } else {
@@ -49,6 +48,17 @@ function App() {
   useEffect(() => {
     tokenCheck();
   }, [loggedIn, history]);
+
+  useEffect(() => {
+    Promise.all([api.getInitialCards(), api.getContent()])
+      .then(([cardItems, user]) => {
+        setCurrentUser(user)
+        setCards(cardItems);
+      }
+      )
+      .catch((err) => console.error(err));
+
+  }, [loggedIn]);
 
   const handleLogin = () => {
     setLoggedIn(true);
@@ -108,18 +118,18 @@ function App() {
     _id: '',
   });
 
-  React.useEffect(() => {
-    //получение карточек с сервера
-    api
-      .getInitialCards()
-      .then((data) => {
-        console.log(data)
-        setCards(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [loggedIn]);
+  // React.useEffect(() => {
+  //   //получение карточек с сервера
+  //   api
+  //     .getInitialCards()
+  //     .then((data) => {
+  //       console.log(data)
+  //       setCards(data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [loggedIn]);
 
   const [cards, setCards] = useState([]); // актуальный массив с карточками
 
