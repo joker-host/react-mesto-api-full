@@ -5,10 +5,6 @@ const ConflictError = require('../errors/ConflictError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const NotFoundError = require('../errors/NotFoundError');
 
-// if (!process.env.JWT_SECRET) {
-//   throw new Error('Нужна переменная окружения');
-// }
-
 const { JWT_SECRET, NODE_ENV } = process.env;
 
 const getAllUsers = (req, res, next) => {
