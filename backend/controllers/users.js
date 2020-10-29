@@ -5,9 +5,9 @@ const ConflictError = require('../errors/ConflictError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const NotFoundError = require('../errors/NotFoundError');
 
-if (!process.env.JWT_SECRET) {
-  throw new Error('Нужна переменная окружения');
-}
+// if (!process.env.JWT_SECRET) {
+//   throw new Error('Нужна переменная окружения');
+// }
 
 const getAllUsers = (req, res, next) => {
   User.find({})
