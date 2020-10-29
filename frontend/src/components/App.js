@@ -31,6 +31,7 @@ function App() {
         .getContent(jwt)
         .then((res) => {
           if (res) {
+            setCurrentUser(res)
             setLoggedIn(true);
             setUserEmail(res.email);
             history.push('/main');
@@ -49,16 +50,18 @@ function App() {
     tokenCheck();
   }, [loggedIn, history]);
 
-  useEffect(() => {
-    Promise.all([api.getInitialCards(), api.getContent()])
-      .then(([cardItems, user]) => {
-        setCurrentUser(user)
-        setCards(cardItems);
-      }
-      )
-      .catch((err) => console.error(err));
+  // useEffect(() => {
+  //   Promise.all([api.getInitialCards(), api.getContent()])
+  //     .then(([cardItems, user]) => {
+  //       setCurrentUser(user)
+  //       setCards(cardItems);
+  //       console.log(currentUser)
+  //       console.log(cards)
+  //     }
+  //     )
+  //     .catch((err) => console.error(err));
 
-  }, [loggedIn]);
+  // }, [loggedIn]);
 
   const handleLogin = () => {
     setLoggedIn(true);
@@ -118,18 +121,18 @@ function App() {
     _id: '',
   });
 
-  // React.useEffect(() => {
-  //   //получение карточек с сервера
-  //   api
-  //     .getInitialCards()
-  //     .then((data) => {
-  //       console.log(data)
-  //       setCards(data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, [loggedIn]);
+  React.useEffect(() => {
+    //получение карточек с сервера
+    api
+      .getInitialCards()
+      .then((data) => {
+        console.log(data)
+        setCards(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [loggedIn]);
 
   const [cards, setCards] = useState([]); // актуальный массив с карточками
 

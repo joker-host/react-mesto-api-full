@@ -15,7 +15,8 @@ const Register = ({ setIsRegisterPopupOpen, setOnFail }) => {
     api
       .register(email, password)
       .then((res) => {
-        if (res._id) {
+        console.log(res)
+        if (res.success) {
           setIsRegisterPopupOpen(res);
           setOnFail('');
           history.push('/signin');

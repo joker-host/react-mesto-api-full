@@ -4,6 +4,7 @@ const UnauthorizedError = require('../errors/UnauthorizedError');
 const { JWT_SECRET, NODE_ENV } = process.env;
 
 module.exports = (req, res, next) => {
+  console.log(req.headers.authorization)
   const token = req.headers.authorization && req.headers.authorization.replace('Bearer ', '');
   let payload;
   try {

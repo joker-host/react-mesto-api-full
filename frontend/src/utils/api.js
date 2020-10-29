@@ -12,10 +12,10 @@ class Api {
   getInitialCards() {
     return fetch(`${baseUrl}/cards`, {
       method: 'GET',
-      mode: 'no-cors',
+      // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer ${localStorage.getItem('jwt')}`
+      authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
     }).then(handleResponse);
   }
@@ -23,7 +23,7 @@ class Api {
   setUserUnfo(values) {
     return fetch(`${baseUrl}/users/me`, {
       method: 'PATCH',
-      mode: 'no-cors',
+      // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -38,7 +38,7 @@ class Api {
   addCards(values) {
     return fetch(`${baseUrl}/cards`, {
       method: 'POST',
-      mode: 'no-cors',
+      // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -53,7 +53,7 @@ class Api {
   likeCards(idCard) {
     return fetch(`${baseUrl}/cards/likes/${idCard}`, {
       method: 'PUT',
-      mode: 'no-cors',
+      // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('jwt')}`
@@ -64,7 +64,7 @@ class Api {
   disLikeCards(idCard) {
     return fetch(`${baseUrl}/cards/likes/${idCard}`, {
       method: 'DELETE',
-      mode: 'no-cors',
+      // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('jwt')}`
@@ -75,7 +75,7 @@ class Api {
   deleteCards(idCard, token) {
     return fetch(`${baseUrl}/cards/${idCard}`, {
       method: 'DELETE',
-      mode: 'no-cors',
+      // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('jwt')}`
@@ -86,7 +86,7 @@ class Api {
   changeAvatar(values) {
     return fetch(`${baseUrl}/users/me/avatar`, {
       method: 'PATCH',
-      mode: 'no-cors',
+      // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('jwt')}`
@@ -100,7 +100,7 @@ class Api {
   register(email, password) {
     return fetch(`${baseUrl}/signup`, {
       method: 'POST',
-      mode: 'no-cors',
+      // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -120,7 +120,7 @@ class Api {
   authorize(email, password) {
     return fetch(`${baseUrl}/signin`, {
       method: 'POST',
-      mode: 'no-cors',
+      // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -136,13 +136,13 @@ class Api {
       });
   }
 
-  getContent() {
+  getContent(token) {
     return fetch(`${baseUrl}/users/me`, {
       method: 'GET',
-      mode: 'no-cors',
+      // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer ${localStorage.getItem('jwt')}`
+        authorization: `Bearer ${token}`
       },
     })
       .then((res) => {
