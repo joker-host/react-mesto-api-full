@@ -1,3 +1,3 @@
-const baseUrl = 'http://api.joker.students.nomoreparties.co';
+const baseUrl = 'http://api.white.students.nomoreparties.co';
 
 export { baseUrl };
