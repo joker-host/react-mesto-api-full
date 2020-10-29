@@ -10,14 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joker-host/express-mesto.git"
+    "url": "git+https://github.com/joker-host/react-mesto-api-full.git"
+
   },
   "author": "Andrey",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/joker-host/express-mesto/issues"
+    "url": "https://github.com/joker-host/react-mesto-api-full/issues"
   },
-  "homepage": "https://github.com/joker-host/express-mesto#readme",
+  "homepage": "https://github.com/joker-host/react-mesto-api-full#readme",
   "devDependencies": {
     "eslint": "^7.8.1",
     "eslint-config-airbnb-base": "^14.2.0",
