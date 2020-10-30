@@ -15,7 +15,7 @@ class Api {
       // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
-      authorization: `Bearer ${localStorage.getItem('jwt')}`
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
       },
     }).then(handleResponse);
   }
@@ -56,7 +56,7 @@ class Api {
       // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer ${localStorage.getItem('jwt')}`
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
       },
     }).then(handleResponse);
   }
@@ -67,7 +67,7 @@ class Api {
       // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer ${localStorage.getItem('jwt')}`
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
       },
     }).then(handleResponse);
   }
@@ -78,7 +78,7 @@ class Api {
       // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer ${localStorage.getItem('jwt')}`
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
       },
     }).then(handleResponse);
   }
@@ -89,7 +89,7 @@ class Api {
       // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer ${localStorage.getItem('jwt')}`
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
       },
       body: JSON.stringify({
         avatar: values.avatarUrl,
@@ -142,7 +142,7 @@ class Api {
       // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer ${token}`
+        authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {

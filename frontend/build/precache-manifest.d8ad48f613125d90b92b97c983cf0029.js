@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "bc6648738efec135f792ca2d9efd91bd",
+    "revision": "02158bf082100e89dc09e01eca44ee56",
     "url": "/index.html"
   },
   {
-    "revision": "a6738f3832b58987d760",
-    "url": "/static/css/main.6e6398da.chunk.css"
+    "revision": "054a54af368a43cd92b6",
+    "url": "/static/css/main.1d67ce31.chunk.css"
   },
   {
     "revision": "b9bea47992b8a222ef9a",
@@ -16,16 +16,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/2.5a4b5237.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "a6738f3832b58987d760",
-    "url": "/static/js/main.d099d406.chunk.js"
+    "revision": "054a54af368a43cd92b6",
+    "url": "/static/js/main.2ccab12a.chunk.js"
   },
   {
     "revision": "c5e7b408ed1922744b94",
     "url": "/static/js/runtime-main.e8402bce.js"
   },
   {
-    "revision": "4072126c596bd9485c6e9601f6d4d35d",
-    "url": "/static/media/Error.4072126c.svg"
+    "revision": "c32299fa3125c41146aa8359b2307523",
+    "url": "/static/media/Error.c32299fa.svg"
   },
   {
     "revision": "06b4a39f7ea3bf0f86951145ead7a027",
@@ -76,39 +76,39 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/Inter-Regular.d03619e1.eot"
   },
   {
-    "revision": "e38b395c190826b3bf6d78baff1415a0",
-    "url": "/static/media/Success.e38b395c.svg"
+    "revision": "7fc4c149eaeefd2cf76f1e1b8ed62cb4",
+    "url": "/static/media/Success.7fc4c149.svg"
   },
   {
-    "revision": "b2fce4ac45f3d116cd48ec8d068ab723",
-    "url": "/static/media/add-button.b2fce4ac.svg"
+    "revision": "bdfb8ebb113b9312e080c2f4b4213223",
+    "url": "/static/media/add-button.bdfb8ebb.svg"
   },
   {
-    "revision": "d476a8b86d0b656cfa463c1148e96069",
-    "url": "/static/media/change.d476a8b8.svg"
+    "revision": "34c4685038e8cf551566cb4ee96e20e5",
+    "url": "/static/media/change.34c46850.svg"
   },
   {
-    "revision": "5df32a06fdf69f3ae19600017c36d45a",
-    "url": "/static/media/close.5df32a06.svg"
+    "revision": "c2d0901f14de58acae456bda23f80e8a",
+    "url": "/static/media/close.c2d0901f.svg"
   },
   {
-    "revision": "4220563aa7e7f6bb1d562a95174678b6",
-    "url": "/static/media/delete.4220563a.svg"
+    "revision": "9c3b03ae735a14dc757b4d25c0ba5fb3",
+    "url": "/static/media/delete.9c3b03ae.svg"
   },
   {
-    "revision": "6bfdb35467f51d3ba1f70f8d4a9c2b59",
-    "url": "/static/media/edit-button.6bfdb354.svg"
+    "revision": "58afbe73d6547d1730a443f381c68d9e",
+    "url": "/static/media/edit-button.58afbe73.svg"
   },
   {
-    "revision": "5bbb05f725aa334a73acf3174e255f4e",
-    "url": "/static/media/like-pressed.5bbb05f7.svg"
+    "revision": "9fdebb6b009c16af50fae58657e30a94",
+    "url": "/static/media/like-pressed.9fdebb6b.svg"
   },
   {
-    "revision": "83a46f45b0ce22c9a4433c11d0372f26",
-    "url": "/static/media/like.83a46f45.svg"
+    "revision": "74771c85e32e79c73b64ebd93ef1fbf2",
+    "url": "/static/media/like.74771c85.svg"
   },
   {
-    "revision": "c6f110191388042ab958ac5e9b285425",
-    "url": "/static/media/logo.c6f11019.svg"
+    "revision": "855a8c9865e79463f31e74f9abcb4438",
+    "url": "/static/media/logo.855a8c98.svg"
   }
 ]);

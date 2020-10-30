@@ -55,6 +55,7 @@ function Login({ handleLogin, onFail, setOnFail }) {
             className='auth__input'
             type='password'
             placeholder='Пароль'
+            pattern='^((?!\s{2}).)*$'
             onChange={(evt) => setPassword(evt.target.value)}
           />
           <p className='auth__error-field'>{onFail}</p>

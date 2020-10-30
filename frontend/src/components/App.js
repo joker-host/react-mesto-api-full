@@ -31,13 +31,13 @@ function App() {
         .getContent(jwt)
         .then((res) => {
           if (res) {
-            setCurrentUser(res)
+            setCurrentUser(res);
             setLoggedIn(true);
             setUserEmail(res.email);
             history.push('/main');
           } else {
             setLoggedIn(false);
-            localStorage.removeItem('jwt')
+            localStorage.removeItem('jwt');
           }
         })
         .catch((err) => {
@@ -126,7 +126,6 @@ function App() {
     api
       .getInitialCards()
       .then((data) => {
-        console.log(data)
         setCards(data);
       })
       .catch((error) => {

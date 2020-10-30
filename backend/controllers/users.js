@@ -1,6 +1,6 @@
-const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const User = require('../models/user');
 const ConflictError = require('../errors/ConflictError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const NotFoundError = require('../errors/NotFoundError');
@@ -15,6 +15,13 @@ const getAllUsers = (req, res, next) => {
 };
 
 const getUserById = (req, res, next) => {
+  User.findById(req.params.id)
+    .orFail(new NotFoundError('Пользователь не найден'))
+    .then((user) => res.status(200).send(user))
+    .catch(next);
+};
+
+const getUserInfo = (req, res, next) => {
   User.findById(req.user.id)
     .orFail(new NotFoundError('Пользователь не найден'))
     .then((user) => res.status(200).send(user))
@@ -28,11 +35,9 @@ const createUser = (req, res, next) => {
       .then((user) => {
         if (user) return next(new ConflictError('Такой пользователь уже существует'));
         return User.create({ email, password: hash })
-          .then((user) => {
-            return res
-              .status(200)
-              .send({ success: true, message: `Пользователь ${user.email} успешно создан` });
-          })
+          .then((newUser) => res
+            .status(200)
+            .send({ success: true, message: `Пользователь ${newUser.email} успешно создан` }))
           .catch((err) => console.log(err));
       })
       .catch(next);
@@ -51,7 +56,11 @@ const userAuth = (req, res, next) => {
       if (!isPasswordMatch) {
         return next(new UnauthorizedError('Не правильный логин или пароль'));
       }
-      const token = jwt.sign({ id: user.id }, `${NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret'}`, { expiresIn: '7d' });
+      const token = jwt.sign(
+        { id: user.id },
+        `${NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret'}`,
+        { expiresIn: '7d' },
+      );
       return res.status(200).send({ token });
     })
     .catch(next);
@@ -72,7 +81,7 @@ const profileEdit = (req, res, next) => {
   const { name, about } = req.body;
   User.findOneAndUpdate(
     { _id: req.user.id },
-    { $set: { name: name, about: about } },
+    { $set: { name, about } },
     { new: true, runValidators: true, upsert: true },
   )
     .then((user) => res.status(200).send(user))
@@ -81,6 +90,7 @@ const profileEdit = (req, res, next) => {
 
 module.exports = {
   getAllUsers,
+  getUserInfo,
   getUserById,
   createUser,
   userAuth,

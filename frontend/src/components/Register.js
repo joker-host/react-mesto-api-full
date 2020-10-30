@@ -15,7 +15,6 @@ const Register = ({ setIsRegisterPopupOpen, setOnFail }) => {
     api
       .register(email, password)
       .then((res) => {
-        console.log(res)
         if (res.success) {
           setIsRegisterPopupOpen(res);
           setOnFail('');
@@ -44,6 +43,8 @@ const Register = ({ setIsRegisterPopupOpen, setOnFail }) => {
           className='auth__input'
           type='password'
           placeholder='Пароль'
+          id='password_register'
+          pattern='^((?!\s{2}).)*$'
           required={true}
           onChange={(evt) => setPassword(evt.target.value)}
         />

@@ -3,12 +3,10 @@ const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
-const getAllCards = (req, res, next) => {
-  return Card.find({})
-    .orFail(new UnauthorizedError('Необходимо авторизоваться'))
-    .then((data) => res.status(200).send(data.reverse()))
-    .catch(next);
-};
+const getAllCards = (req, res, next) => Card.find({})
+  .orFail(new UnauthorizedError('Необходимо авторизоваться'))
+  .then((data) => res.status(200).send(data.reverse()))
+  .catch(next);
 
 const createCard = (req, res, next) => {
   const _id = req.user.id;
@@ -30,7 +28,6 @@ const deleteCard = (req, res, next) => {
 };
 
 const likeCard = (req, res, next) => {
-  console.log(req.params.id);
   Card.findOneAndUpdate(
     { _id: req.params.id },
     { $addToSet: { likes: req.user.id } }, // убрать _id из массива

@@ -4,7 +4,7 @@ const auth = require('../middlewares/auth');
 const {
   validationUser,
   validationCard,
-  validationId,
+  validationParamsId,
   validationUserData,
   validationAvatarLink,
   // validationTokenCheck,
@@ -13,6 +13,7 @@ const {
 const {
   getAllUsers,
   getUserById,
+  getUserInfo,
   createUser,
   userAuth,
   profileEdit,
@@ -28,18 +29,18 @@ const {
 } = require('../controllers/cards');
 
 apiRouter.get('/users', auth, getAllUsers);
-apiRouter.get('/users/:id', validationId, auth, getUserById);
+apiRouter.get('/users/me', auth, getUserInfo);
+apiRouter.get('/users/:id', getUserById);
 apiRouter.post('/signup', validationUser, createUser);
 apiRouter.post('/signin', validationUser, userAuth);
-apiRouter.get('/users/me', validationId, auth, getUserById);
 apiRouter.patch('/users/me', validationUserData, auth, profileEdit);
 apiRouter.patch('/users/me/avatar', validationAvatarLink, auth, changeAvatar);
 
 apiRouter.get('/cards', auth, getAllCards);
 apiRouter.post('/cards', validationCard, auth, createCard);
-apiRouter.delete('/cards/:id', validationId, auth, deleteCard);
-apiRouter.put('/cards/likes/:id', validationId, auth, likeCard);
-apiRouter.delete('/cards/likes/:id', validationId, auth, dislikeCard);
+apiRouter.delete('/cards/:id', validationParamsId, auth, deleteCard);
+apiRouter.put('/cards/likes/:id', validationParamsId, auth, likeCard);
+apiRouter.delete('/cards/likes/:id', validationParamsId, auth, dislikeCard);
 
 // apiRouter.get('/users', auth, getAllUsers);
 // apiRouter.get('/users/:id', auth, getUserById);
