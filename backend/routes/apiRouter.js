@@ -30,7 +30,7 @@ const {
 
 apiRouter.get('/users', auth, getAllUsers);
 apiRouter.get('/users/me', auth, getUserInfo);
-apiRouter.get('/users/:id', getUserById);
+apiRouter.get('/users/:id', validationParamsId, getUserById);
 apiRouter.post('/signup', validationUser, createUser);
 apiRouter.post('/signin', validationUser, userAuth);
 apiRouter.patch('/users/me', validationUserData, auth, profileEdit);
